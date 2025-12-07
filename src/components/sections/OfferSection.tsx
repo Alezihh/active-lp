@@ -129,7 +129,17 @@ const OfferSection = () => {
                 variant={plan.popular ? "cta" : "outline"}
                 size="lg"
                 className="w-full"
-                onClick={() => window.open(plan.link, '_blank')}
+                onClick={() => {
+                  // Meta Pixel - Track conversion
+                  if (typeof window !== 'undefined' && window.fbq) {
+                    window.fbq('track', 'Lead', {
+                      content_name: `Plano ${plan.name}`,
+                      value: plan.price.replace('R$ ', '').replace(',', '.'),
+                      currency: 'BRL'
+                    });
+                  }
+                  window.open(plan.link, '_blank');
+                }}
               >
                 {plan.popular ? "QUERO O PLANO PRO" : "QUERO O PLANO BASIC"}
               </Button>
