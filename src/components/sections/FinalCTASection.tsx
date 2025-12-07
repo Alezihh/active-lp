@@ -38,7 +38,7 @@ const FinalCTASection = () => {
             onClick={() => {
               const planosSection = document.getElementById('planos');
               if (planosSection) {
-                planosSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                planosSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
               }
             }}
           >
