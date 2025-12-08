@@ -130,7 +130,7 @@ const OfferSection = () => {
                 size="lg"
                 className="w-full"
                 onClick={() => {
-                  // Meta Pixel - Track conversion
+                  // Meta Pixel - Track conversion (dispara para ambos os pixels)
                   if (typeof window !== 'undefined' && window.fbq) {
                     window.fbq('track', 'Lead', {
                       content_name: `Plano ${plan.name}`,
