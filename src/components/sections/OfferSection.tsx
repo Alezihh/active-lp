@@ -9,7 +9,7 @@ const plans = [
     price: "R$ 9,99",
     installments: "ou 6x de R$ 1,67",
     popular: false,
-    link: "https://pay.kirvano.com/b5e2d108-6394-406c-94a1-59ab7470b670",
+    link: "https://pay.kirvano.com/59c1f640-f5f6-4421-bb55-b646549070c7",
     features: [
       "Exercícios com animações",
       "Protocolos de 8 a 15 minutos",
@@ -29,7 +29,7 @@ const plans = [
     price: "R$ 29,90",
     installments: "ou 12x de R$ 2,49",
     popular: true,
-    link: "https://pay.kirvano.com/cdfa0972-1266-4ada-b3a2-7d88a39ccfb9",
+    link: "https://pay.kirvano.com/f6b09cfd-b4a9-4246-b198-b9cb51c999e0",
     features: [
       "Acesso completo ao aplicativo Active",
       "Exercícios guiados com animações profissionais",
