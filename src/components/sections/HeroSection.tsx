@@ -101,7 +101,6 @@ const HeroSection = () => {
                 src="/hero-pilates.mp4"
                 autoPlay
                 loop
-                muted
                 playsInline
                 className="relative rounded-3xl shadow-2xl w-full max-w-lg mx-auto object-cover"
                 aria-label="Mulher praticando pilates na parede"
