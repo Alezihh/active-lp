@@ -1,12 +1,22 @@
 import { Button } from "@/components/ui/button";
 import { Check, Clock, Home } from "lucide-react";
+import { useRef, useEffect } from "react";
 
 const HeroSection = () => {
+  const videoRef = useRef<HTMLVideoElement>(null);
   const highlights = [
     { icon: Home, text: "Emagreça em casa" },
     { icon: Clock, text: "Treinos de 8 a 15 minutos" },
     { icon: Check, text: "Sem equipamentos" },
   ];
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play().catch((error) => {
+        console.log("Autoplay não permitido:", error);
+      });
+    }
+  }, []);
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-gradient-hero">
@@ -84,6 +94,7 @@ const HeroSection = () => {
             <div className="relative">
               <div className="absolute -inset-4 bg-active-glow/20 rounded-3xl blur-2xl" />
               <video
+                ref={videoRef}
                 src="/hero-pilates.mp4"
                 autoPlay
                 loop
