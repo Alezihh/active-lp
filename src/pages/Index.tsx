@@ -2,6 +2,7 @@ import HeroSection from "@/components/sections/HeroSection";
 import WhatIsSection from "@/components/sections/WhatIsSection";
 import BenefitsSection from "@/components/sections/BenefitsSection";
 import TransformationSection from "@/components/sections/TransformationSection";
+import SocialProofSection from "@/components/sections/SocialProofSection";
 import MethodSection from "@/components/sections/MethodSection";
 import WhatYouGetSection from "@/components/sections/WhatYouGetSection";
 import BonusSection from "@/components/sections/BonusSection";
@@ -18,6 +19,7 @@ const Index = () => {
       <WhatIsSection />
       <BenefitsSection />
       <TransformationSection />
+      <SocialProofSection />
       <MethodSection />
       <WhatYouGetSection />
       <BonusSection />

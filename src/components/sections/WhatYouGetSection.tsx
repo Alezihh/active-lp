@@ -101,7 +101,7 @@ const WhatYouGetSection = () => {
                         R$ 500,00
                       </span>
                       <span className="text-4xl font-bold text-active-glow">
-                        R$ 29,90
+                        R$ 39,90
                       </span>
                     </div>
                   </div>
