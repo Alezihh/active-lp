@@ -1,10 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Check, Clock, Home } from "lucide-react";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 
 const HeroSection = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const highlights = [
     { icon: Home, text: "Emagreça em casa" },
     { icon: Clock, text: "Treinos de 8 a 15 minutos" },
@@ -13,29 +12,12 @@ const HeroSection = () => {
 
   useEffect(() => {
     if (videoRef.current) {
-      const video = videoRef.current;
-      
-      const handleCanPlay = () => {
-        setIsVideoLoaded(true);
-        video.play().catch((error) => {
+      const playPromise = videoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((error) => {
           console.log("Autoplay não permitido:", error);
         });
-      };
-
-      const handleLoadedData = () => {
-        setIsVideoLoaded(true);
-      };
-
-      video.addEventListener('canplay', handleCanPlay);
-      video.addEventListener('loadeddata', handleLoadedData);
-
-      // Tentar carregar o vídeo
-      video.load();
-
-      return () => {
-        video.removeEventListener('canplay', handleCanPlay);
-        video.removeEventListener('loadeddata', handleLoadedData);
-      };
+      }
     }
   }, []);
 
@@ -114,22 +96,14 @@ const HeroSection = () => {
             
             <div className="relative">
               <div className="absolute -inset-4 bg-active-glow/20 rounded-3xl blur-2xl" />
-              {/* Placeholder enquanto carrega */}
-              {!isVideoLoaded && (
-                <div className="relative rounded-3xl shadow-2xl w-full max-w-lg mx-auto aspect-video bg-gradient-to-br from-active-dark to-primary flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
-                </div>
-              )}
               <video
                 ref={videoRef}
                 src="/hero-pilates.mp4"
                 autoPlay
                 loop
+                muted
                 playsInline
-                preload="auto"
-                className={`relative rounded-3xl shadow-2xl w-full max-w-lg mx-auto object-cover transition-opacity duration-300 ${
-                  isVideoLoaded ? 'opacity-100' : 'opacity-0 absolute'
-                }`}
+                className="relative rounded-3xl shadow-2xl w-full max-w-lg mx-auto object-cover"
                 aria-label="Mulher praticando pilates na parede"
               />
               
