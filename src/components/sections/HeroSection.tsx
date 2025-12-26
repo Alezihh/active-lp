@@ -1,40 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Check, Clock, Home } from "lucide-react";
-import { useRef, useEffect, useState } from "react";
 
 const HeroSection = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isMuted, setIsMuted] = useState(true);
   const highlights = [
     { icon: Home, text: "Emagreça em casa" },
     { icon: Clock, text: "Treinos de 8 a 15 minutos" },
     { icon: Check, text: "Sem equipamentos" },
   ];
-
-  useEffect(() => {
-    if (videoRef.current) {
-      const video = videoRef.current;
-      
-      // Tenta reproduzir com áudio primeiro
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            // Se conseguir reproduzir, tenta desmutar
-            video.muted = false;
-            setIsMuted(false);
-          })
-          .catch((error) => {
-            // Se falhar, mantém muted e reproduz
-            console.log("Autoplay com áudio não permitido, reproduzindo muted:", error);
-            video.muted = true;
-            video.play().catch(() => {
-              console.log("Erro ao reproduzir vídeo");
-            });
-          });
-      }
-    }
-  }, []);
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-gradient-hero">
@@ -112,44 +84,14 @@ const HeroSection = () => {
             <div className="relative">
               <div className="absolute -inset-4 bg-active-glow/20 rounded-3xl blur-2xl" />
               <video
-                ref={videoRef}
                 src="/hero-pilates.mp4"
                 autoPlay
                 loop
-                muted={isMuted}
                 playsInline
+                preload="metadata"
                 className="relative rounded-3xl shadow-2xl w-full max-w-lg mx-auto object-cover"
                 aria-label="Mulher praticando pilates na parede"
               />
-              {/* Botão para ativar som se estiver muted */}
-              {isMuted && (
-                <button
-                  onClick={() => {
-                    if (videoRef.current) {
-                      videoRef.current.muted = false;
-                      setIsMuted(false);
-                    }
-                  }}
-                  className="absolute bottom-4 right-4 bg-active-dark/80 hover:bg-active-dark text-white rounded-full p-3 shadow-lg backdrop-blur-sm transition-all z-10"
-                  aria-label="Ativar som"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M11 5L6 9H2v6h4l5 4V5z" />
-                    <line x1="23" y1="9" x2="17" y2="15" />
-                    <line x1="17" y1="9" x2="23" y2="15" />
-                  </svg>
-                </button>
-              )}
               
               {/* Floating Stats Card */}
               <div className="absolute -bottom-6 -left-6 glass rounded-2xl p-4 shadow-card animate-scaleIn" style={{ animationDelay: "0.8s" }}>
