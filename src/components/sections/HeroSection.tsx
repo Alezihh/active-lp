@@ -20,7 +20,28 @@ const HeroSection = () => {
       });
     };
 
+    const handleError = (e: Event) => {
+      console.error("Erro ao carregar vídeo:", e);
+      // Tenta recarregar o vídeo
+      setTimeout(() => {
+        if (video) {
+          video.load();
+        }
+      }, 1000);
+    };
+
+    const handleLoadedData = () => {
+      video.play().catch((err) => {
+        console.log("Autoplay não permitido:", err);
+      });
+    };
+
     video.addEventListener('canplay', handleCanPlay);
+    video.addEventListener('error', handleError);
+    video.addEventListener('loadeddata', handleLoadedData);
+    
+    // Forçar carregamento do vídeo
+    video.load();
     
     // Tentar reproduzir imediatamente se já estiver pronto
     if (video.readyState >= 3) {
@@ -31,6 +52,8 @@ const HeroSection = () => {
 
     return () => {
       video.removeEventListener('canplay', handleCanPlay);
+      video.removeEventListener('error', handleError);
+      video.removeEventListener('loadeddata', handleLoadedData);
     };
   }, []);
 
