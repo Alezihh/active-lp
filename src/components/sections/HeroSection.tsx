@@ -1,9 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Check, Clock, Home } from "lucide-react";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 
 const HeroSection = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isMuted, setIsMuted] = useState(true);
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
+  
   const highlights = [
     { icon: Home, text: "Emagreça em casa" },
     { icon: Clock, text: "Treinos de 8 a 15 minutos" },
@@ -11,51 +14,25 @@ const HeroSection = () => {
   ];
 
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const handleCanPlay = () => {
-      video.play().catch((err) => {
-        console.log("Erro ao reproduzir:", err);
-      });
+    const handleUserInteraction = () => {
+      if (!hasUserInteracted && videoRef.current) {
+        setHasUserInteracted(true);
+        videoRef.current.muted = false;
+        setIsMuted(false);
+      }
     };
 
-    const handleError = (e: Event) => {
-      console.error("Erro ao carregar vídeo:", e);
-      // Tenta recarregar o vídeo
-      setTimeout(() => {
-        if (video) {
-          video.load();
-        }
-      }, 1000);
-    };
-
-    const handleLoadedData = () => {
-      video.play().catch((err) => {
-        console.log("Autoplay não permitido:", err);
-      });
-    };
-
-    video.addEventListener('canplay', handleCanPlay);
-    video.addEventListener('error', handleError);
-    video.addEventListener('loadeddata', handleLoadedData);
-    
-    // Forçar carregamento do vídeo
-    video.load();
-    
-    // Tentar reproduzir imediatamente se já estiver pronto
-    if (video.readyState >= 3) {
-      video.play().catch((err) => {
-        console.log("Erro ao reproduzir:", err);
-      });
-    }
+    // Adiciona listeners para interações do usuário
+    window.addEventListener('click', handleUserInteraction, { once: true });
+    window.addEventListener('scroll', handleUserInteraction, { once: true });
+    window.addEventListener('touchstart', handleUserInteraction, { once: true });
 
     return () => {
-      video.removeEventListener('canplay', handleCanPlay);
-      video.removeEventListener('error', handleError);
-      video.removeEventListener('loadeddata', handleLoadedData);
+      window.removeEventListener('click', handleUserInteraction);
+      window.removeEventListener('scroll', handleUserInteraction);
+      window.removeEventListener('touchstart', handleUserInteraction);
     };
-  }, []);
+  }, [hasUserInteracted]);
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-gradient-hero">
@@ -137,11 +114,41 @@ const HeroSection = () => {
                 src="/hero-pilates.mp4"
                 autoPlay
                 loop
+                muted={isMuted}
                 playsInline
                 preload="auto"
                 className="relative rounded-3xl shadow-2xl w-full max-w-lg mx-auto object-cover"
                 aria-label="Mulher praticando pilates na parede"
               />
+              {/* Botão para ativar som se estiver muted */}
+              {isMuted && (
+                <button
+                  onClick={() => {
+                    if (videoRef.current) {
+                      videoRef.current.muted = false;
+                      setIsMuted(false);
+                    }
+                  }}
+                  className="absolute bottom-4 right-4 bg-active-dark/90 hover:bg-active-dark text-white rounded-full p-3 shadow-lg backdrop-blur-sm transition-all z-10 flex items-center justify-center"
+                  aria-label="Ativar som"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M11 5L6 9H2v6h4l5 4V5z" />
+                    <line x1="23" y1="9" x2="17" y2="15" />
+                    <line x1="17" y1="9" x2="23" y2="15" />
+                  </svg>
+                </button>
+              )}
               
               {/* Floating Stats Card */}
               <div className="absolute -bottom-6 -left-6 glass rounded-2xl p-4 shadow-card animate-scaleIn" style={{ animationDelay: "0.8s" }}>
