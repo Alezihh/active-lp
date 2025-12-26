@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Check, Clock, Home } from "lucide-react";
-import heroImage from "@/assets/hero-pilates.jpg";
 
 const HeroSection = () => {
   const highlights = [
@@ -20,15 +19,7 @@ const HeroSection = () => {
       <div className="container relative z-10 mx-auto px-4 py-12 lg:py-0">
         <div className="flex min-h-screen flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
           {/* Content */}
-          <div className="flex-1 text-center lg:text-left pt-20 lg:pt-0">
-            <div className="inline-flex items-center gap-2 rounded-full bg-primary-foreground/10 px-4 py-2 text-primary-foreground/90 text-sm font-medium mb-6 backdrop-blur-sm border border-primary-foreground/20">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-active-glow opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-active-glow"></span>
-              </span>
-              Método comprovado por milhares de mulheres
-            </div>
-
+          <div className="flex-1 text-center lg:text-left pt-8 lg:pt-0 order-2 lg:order-1">
             <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-primary-foreground leading-tight mb-6 animate-slideUp">
               Transforme Seu Corpo
               <br />
@@ -77,14 +68,28 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Hero Image */}
-          <div className="flex-1 relative animate-float">
+          {/* Hero Video */}
+          <div className="flex-1 relative animate-float order-1 lg:order-2">
+            {/* Badge acima do vídeo */}
+            <div className="flex justify-center lg:justify-start mb-6 animate-fadeIn">
+              <div className="inline-flex items-center gap-2 rounded-full bg-active-dark px-4 py-2 text-white text-sm font-medium shadow-lg">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-active-glow opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-active-glow"></span>
+                </span>
+                Método comprovado por milhares de mulheres
+              </div>
+            </div>
+            
             <div className="relative">
               <div className="absolute -inset-4 bg-active-glow/20 rounded-3xl blur-2xl" />
-              <img
-                src={heroImage}
-                alt="Mulher praticando pilates na parede"
+              <video
+                src="/hero-pilates.mp4"
+                autoPlay
+                loop
+                playsInline
                 className="relative rounded-3xl shadow-2xl w-full max-w-lg mx-auto object-cover"
+                aria-label="Mulher praticando pilates na parede"
               />
               
               {/* Floating Stats Card */}
