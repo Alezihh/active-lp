@@ -1,12 +1,38 @@
 import { Button } from "@/components/ui/button";
 import { Check, Clock, Home } from "lucide-react";
+import { useRef, useEffect } from "react";
 
 const HeroSection = () => {
+  const videoRef = useRef<HTMLVideoElement>(null);
   const highlights = [
     { icon: Home, text: "Emagreça em casa" },
     { icon: Clock, text: "Treinos de 8 a 15 minutos" },
     { icon: Check, text: "Sem equipamentos" },
   ];
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handleCanPlay = () => {
+      video.play().catch((err) => {
+        console.log("Erro ao reproduzir:", err);
+      });
+    };
+
+    video.addEventListener('canplay', handleCanPlay);
+    
+    // Tentar reproduzir imediatamente se já estiver pronto
+    if (video.readyState >= 3) {
+      video.play().catch((err) => {
+        console.log("Erro ao reproduzir:", err);
+      });
+    }
+
+    return () => {
+      video.removeEventListener('canplay', handleCanPlay);
+    };
+  }, []);
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-gradient-hero">
@@ -84,11 +110,12 @@ const HeroSection = () => {
             <div className="relative">
               <div className="absolute -inset-4 bg-active-glow/20 rounded-3xl blur-2xl" />
               <video
+                ref={videoRef}
                 src="/hero-pilates.mp4"
                 autoPlay
                 loop
                 playsInline
-                preload="metadata"
+                preload="auto"
                 className="relative rounded-3xl shadow-2xl w-full max-w-lg mx-auto object-cover"
                 aria-label="Mulher praticando pilates na parede"
               />
